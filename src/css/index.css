@@ -1,13 +1,24 @@
 
+:root {
+    --main-accent-color: royalblue;
+    --main-text-color:rgba(255, 255, 255, 0.87);
+
+    --link-color: dodgerblue;
+}
+
 *{
-    box-sizing: border-box;
     outline-offset: .25rem;
 }
 
 html {
-    color-scheme: dark;
-    font-family: system-ui , sans-serif;
     font-size: 10px;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    box-sizing: border-box;
+    color: var(--main-text-color);
+    background-color: #242424;
 }
 
 body {
@@ -17,35 +28,57 @@ body {
 }
 
 button {
-    padding:  0.5rem 1.25rem;
-    border-radius:0.25rem ;
-    border: 1px solid;
-    font-weight: bold;
+    min-width: 10rem;
+    min-height: 3rem;
+    margin: 0;
+    padding:  0.5rem 1.5rem;
+    border-radius: 5px;
+    border: 2px solid rgba(0,0,0,0);
+    font-weight: 500;
+    font-size: 1em;
     cursor: pointer;
+    background-color: #1a1a1a;
 }
 
+/*button {*/
+
+/*    border: 1px solid rgba(0,0,0,0);*/
+/*    padding: 0.6em 1.2em;*/
+/*    font-size: 1em;*/
+/*    font-weight: 500;*/
+/*    font-family: inherit;*/
+/*    background-color: #1a1a1a;*/
+/*    cursor: pointer;*/
+/*    transition: border-color 0.25s;*/
+/*}*/
+
+button:hover {
+    border-color:  var(--main-accent-color);
+}
+
+
 a {
-    color: #00B7FF;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0);
-    transition: border-bottom 0.2s ease;
+    color: dodgerblue;
+    text-decoration: underline ;
+    text-underline-color: currentColor ;
+    text-underline-offset: 3px;
+    text-underline-position: under;
 }
 
 a:visited {
-    color: #00B7FF;
+    color: royalblue;
 }
 
+a:active
+{
+    text-shadow: dodgerblue 0 0 3px;
+}
 
 @media (hover: hover) {
     a:hover,
-    a:focus{
-        border-bottom: 1px solid currentColor;
-    }
-}
-
-@media(hover: none) {
-    a:active{
-        border-bottom: 1px solid currentColor;
+    a:focus
+    {
+        text-shadow: currentColor 0 0 3px;
     }
 }
 
@@ -95,7 +128,7 @@ input {
 }
 
  ul{
-    padding: 0 0 0 0rem;
+    padding: 0 0 0 0;
 }
 
 li {

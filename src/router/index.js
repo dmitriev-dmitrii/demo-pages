@@ -1,6 +1,7 @@
 
 import lorem from "@/pages/lorem.html";
 import flexGap from "@/pages/flex-gap.html";
+import dragDrop from "@/pages/drag-drop.html";
 
 const routes = [
 
@@ -24,6 +25,12 @@ const routes = [
         component : flexGap,
         name :'flexGap',
         path: "/flex-gap"
+    },
+    {
+        title: 'useDragDrop',
+        component : dragDrop,
+        name :'dragDrop',
+        path: "/drag-drop"
     },
     {
         title: 'lorem title',

@@ -1,0 +1,323 @@
+
+<h1> Use Drag Drop </h1>
+
+<main>
+
+    <div class="dashboard" data-drag-now="false">
+
+        <div class="dashboard__column">
+
+            <div class="dashboard__column__header">
+                <h2 class="dashboard__column__header__title"> Column</h2>
+                <div class="dashboard__column__header__actions-bar">
+                    <button >add task </button>
+                    <button >edit column </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dashboard__column">
+            <div class="dashboard__column__header">
+                <h2 class="dashboard__column__header__title"> Column</h2>
+                <div class="dashboard__column__header__actions-bar">
+                    <button >add task </button>
+                    <button >edit column </button>
+                </div>
+            </div>
+
+            <div class="dashboard__item" id="lorem">
+
+                <div class="dashboard__item__header">
+
+                    <div class="dashboard__item__header__actions-bar">
+                        <button draggable="true" id="lorem-btn"> drag item </button>
+                        <button >edit item </button>
+                    </div>
+
+                    <h3 class="dashboard__item__header__title"> id="lorem" </h3>
+
+                </div>
+
+                <p class="dashboard__item__description">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque, non.
+                </p>
+
+            </div>
+
+            <div class="dashboard__item" draggable="true">
+                <div class="dashboard__item__header">
+
+                    <div class="dashboard__item__header__actions-bar">
+                        <button> drag item </button>
+                        <button >edit item </button>
+                    </div>
+
+                    <h3 class="dashboard__item__header__title"> Lorem ipsum dolor </h3>
+
+                </div>
+
+                <p class="dashboard__item__description">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A asperiores, libero nam placeat quo sit ut veritatis. Facere, quisquam, reiciendis.
+                </p>
+            </div>
+
+
+        </div>
+
+        <div class="dashboard__column">
+
+            <div class="dashboard__column__header">
+                <h2 class="dashboard__column__header__title"> Column</h2>
+                <div class="dashboard__column__header__actions-bar">
+                    <button >add task </button>
+                    <button >edit column </button>
+                </div>
+            </div>
+
+            <div class="dashboard__item" draggable="true" >
+
+                <div class="dashboard__item__header">
+
+                    <div class="dashboard__item__header__actions-bar">
+                        <button> drag item </button>
+                        <button >edit item </button>
+                    </div>
+
+                    <h3 class="dashboard__item__header__title">  task title </h3>
+
+                </div>
+
+                <p class="dashboard__item__description">
+                    description
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</main>
+
+<script defer type="module">
+import { useDragDrop } from '../src/features/useDragDrop.js'
+
+const dashboard = document.querySelector('.dashboard');
+const dragTargets = document.querySelectorAll('.dashboard__item');
+
+const  onDragStart  = (dragTarget, dragTargetClone) => {
+    dashboard.dataset.dragNow ='true'
+    console.log('onDragStart')
+
+    if (dragTarget.classList.contains('.dashboard__item')) {
+        dragTarget.classList.add('dashboard--drag-target')
+
+        return true
+    }
+
+    // dragTargetClone.classList.add('dashboard--drag-target')
+    // dashboard.dataset.dragNow = 'true'
+
+}
+
+const  onDragEnd  = (dragTarget, dragTargetClone) => {
+    dashboard.dataset.dragNow ='false'
+    console.log('onDragEnd')
+    dragTarget.classList.remove('dashboard--drag-target')
+    // dashboard.dataset.dragNow = 'false'
+}
+
+
+const onDragEnter   = (dragTarget, dropTarget) => {
+    console.log('onDragEnter')
+    if (dropTarget.classList.contains('.dashboard__column')) {
+        dropTarget.classList.add('dashboard--drop-target')
+    }
+}
+
+const onDragLeave   = (dragTarget, dropTarget) => {
+    console.log('onDragLeave')
+    dropTarget.classList.remove('dashboard--drop-target')
+}
+
+const onDragDrop   = (dragTarget, dropTarget) => {
+    console.log('onDragDrop')
+
+    dropTarget.classList.remove('dashboard--drop-target')
+
+    if (dropTarget.classList.contains('.dashboard__column')) {
+        dropTarget.append( dragTarget )
+    }
+
+}
+
+    useDragDrop ({
+        dragTargets,
+        onDragStart,
+        onDragEnd,
+        onDragEnter,
+        onDragLeave,
+        onDragDrop
+    })
+</script>
+
+<style>
+
+    .dashboard {
+        display: flex;
+        align-items: start;
+        margin: 0 -1rem;
+        /*--dashboard-item-min-height: ;*/
+
+    }
+
+    /*dashboard state drag-now add place holders */
+
+    .dashboard[data-drag-now="true"] .dashboard__item:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 2;
+    }
+
+    .dashboard[data-drag-now="false"] .dashboard__item:after {
+        z-index: -2;
+    }
+
+
+    .dashboard[data-drag-now="true"] .dashboard__column:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .dashboard[data-drag-now="false"] .dashboard__column:after {
+        z-index: -1;
+    }
+
+    /*dashboard state drag-now add place holders end */
+
+    .dashboard__column {
+
+        margin: 0 1rem;
+        min-width: 30rem;
+        max-width: 30rem;
+        border-radius: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all ease .3s;
+        padding: 0 1rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+    }
+
+    .dashboard__column__header {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .dashboard__column__header__title {
+        margin-top: 1rem;
+    }
+
+    .dashboard__column__header__actions-bar {
+        margin-top: 1rem;
+        align-self: flex-end;
+    }
+
+    .dashboard__item {
+        position:relative;
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: start;
+        overflow: hidden;
+        padding: 1rem  1rem;
+        border-radius: 1.5rem;
+        background: #ffff;
+        /*min-height: var(--dashboard-item-min-height, 10rem);*/
+        min-height:  10rem;
+        color: #828282;
+        /*transform: translate( 0 ,100% );*/
+
+        /*cursor: grab;*/
+
+    }
+
+    .dashboard__item:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    .dashboard__item__header {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.3rem;
+    }
+
+    .dashboard__item__header__title {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    }
+
+    .dashboard__item__header__actions-bar {
+
+        /*align-self: flex-end;*/
+    }
+
+    .dashboard--drag-target {
+        /*opacity: 0;*/
+        /*padding: 0;*/
+        /*min-height: 0;*/
+        /*font-size: 0;*/
+        /*user-select: none;*/
+        /*transform: translate(0px, 0px);*/
+        /*cursor: grabbing;*/
+        /*position: absolute;*/
+
+        /*transform: translate( var(--dashboard-x) ,var(--dashboard-y ) );*/
+        /*box-shadow: 0 0 2px 2px dodgerblue inset;*/
+        /*transition: opacity  .1s linear;*/
+
+        outline: 2px solid dodgerblue;
+    }
+
+    .dashboard__item--drag-target:active {
+        /*transform: translate( var(--dashboard-x) ,var(--dashboard-y ) );*/
+        /*box-shadow: 0 0 2px 2px dodgerblue inset;*/
+        /*opacity: 1;*/
+    }
+
+    .dashboard--drop-target {
+        /*transition: outline .3s ease , box-shadow .3s ease;*/
+        /*box-shadow: 0 0 5px 3px dodgerblue inset;*/
+        outline: .5rem dot-dot-dash dodgerblue;
+        animation: dashboard--drop-target 1s  infinite;
+    }
+
+    @keyframes dashboard--drop-target {
+        0% {
+            outline: .5rem dashed dodgerblue;
+        }
+
+        100% {
+            outline: .5rem solid dodgerblue;
+        }
+    }
+
+
+</style>
