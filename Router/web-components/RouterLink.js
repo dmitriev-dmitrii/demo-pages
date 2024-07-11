@@ -64,7 +64,7 @@ export default class RouterLink extends HTMLElement {
 
     attributeChangedCallback(attribute, previousValue, currentValue) {
         // called when attributes are added, removed, or changed
-        console.log('attributeChangedCallback', attribute, previousValue, currentValue)
+        // console.log('attributeChangedCallback', attribute, previousValue, currentValue)
     }
 }
 

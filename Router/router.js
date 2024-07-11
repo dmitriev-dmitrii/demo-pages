@@ -81,8 +81,8 @@ export const push = async  (payload) => {
 
     currentRoute = findRoute(payload)
 
-    console.log(path)
-    console.log('currentRoute',currentRoute)
+    // console.log(path)
+    // console.log('currentRoute',currentRoute)
 
     window.history.pushState(null, null, path || currentRoute.path );
 

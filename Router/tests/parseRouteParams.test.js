@@ -9,7 +9,7 @@ const routePath = '/users/:id/role/:roleId'
 const pathRegExp = buildPathRegExp(routePath)
 
 test('parseRouteParams ', () => {
-    console.log(pathRegExp)
+    // console.log(pathRegExp)
     const {id, role} =  parseRouteParams({routePath,pathRegExp,url})
 
     expect(id).toBe('2')
