@@ -12,12 +12,12 @@ const routes = [
     {
         path: "/posts",
         name:'   Posts',
-        component: '<h1> post !</h1> <p> <router-link path="/posts/1"> Post 1 </router-link> </p>'
+        component: '<h1> all post !</h1> <p> <router-link path="/posts/1"> Post 1 </router-link>  <br> <router-link path="/posts/2"> Post 2 </router-link> </p>'
     },
     {
         path: "/posts/:id",
         name:'post',
-        component: '<h1> posts !</h1> '
+        component: '<h1> current post </h1>'
     },
     {
         title: 'flex gap',

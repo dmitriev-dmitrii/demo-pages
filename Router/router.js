@@ -13,18 +13,22 @@ const routes = [{
     component: '<h1> 404 Not Found </h1>'
 }]
 
-const findRoute =  ( {path = '', name = '' } )=> {
+const findRoute =  ( routePayload )=> {
+  const   {path = '', name = '', params = {} } = routePayload
+
 
     if (name && !path) {
         // search by name
+        // todo params obj
         return  routesNamesMap.get(name.trim().toLowerCase())
     }
 
-     const r = Array.from(routesRegexpPathMap.keys()).filter((item)=> {
+    // search by path
+     const matchesArr = Array.from(routesRegexpPathMap.keys()).filter((item)=> {
             return  item.test(path)
      })
 
-     const route = routesRegexpPathMap.get(r[0])
+     const route = routesRegexpPathMap.get(matchesArr[0])
 
      if ( route ) {
          return route
@@ -63,6 +67,7 @@ const renderRouterView = async () => {
         }
 
         routerViewDom.innerHTML = ''
+        // очистка от старого контента
 
         routerViewDom.append.apply( routerViewDom , template.children )
 
@@ -81,8 +86,7 @@ export const push = async  (payload) => {
 
     currentRoute = findRoute(payload)
 
-    // console.log(path)
-    // console.log('currentRoute',currentRoute)
+
 
     window.history.pushState(null, null, path || currentRoute.path );
 
@@ -102,9 +106,13 @@ export const init = (routesArr) => {
 
         const { name,path } = item
 
-        const  pathRegexp = buildPathRegExp(path)
-        item.pathRegexp = pathRegexp
+        const {pathRegexp, dynamicParams} = buildPathRegExp(path)
 
+        item.pathRegexp = pathRegexp
+        item.params = dynamicParams
+
+        // console.log('item.params',item.params)
+       // .replace(':','')
         routesNamesMap.set( name , item )
         routesRegexpPathMap.set( pathRegexp, item)
 
