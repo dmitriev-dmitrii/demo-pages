@@ -2,7 +2,7 @@ import {push} from '../router.js'
 
 const template = document.createElement('template')
 template.innerHTML = `<a href=""><slot></slot></a>`
-
+// TODO сделать чтобы компонент выглядел как обычная ссылка
 const isDisabledAttributeMap = {
     "disabled" : true,
     'true': true,
