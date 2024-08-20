@@ -1,13 +1,12 @@
 
 
-export const parseUrl = (urlSrc = '') => {
+export const parseQueryParamsUrl = (urlSrc = '') => {
 
     if (!urlSrc) {
 
         return  {
             query: {},
             hash: '',
-            href: '',
             path:''
         }
     }

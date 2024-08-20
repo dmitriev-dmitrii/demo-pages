@@ -1,10 +1,10 @@
 // import { expect, test } from 'vitest'
-// import {parseUrl} from "../utils/parseUrl.js";
+// import {parseQueryParamsUrl} from "../utils/parseQueryParamsUrl.js";
 //
 // const url = 'https://example.com/path/index.html?param=value&param2=value2#somehash'
 //
-// test('parseUrl test query', () => {
-//     const {query} =    parseUrl(url)
+// test('parseQueryParamsUrl test query', () => {
+//     const {query} =    parseQueryParamsUrl(url)
 //
 //     expect(query).toMatchObject({
 //         param:'value',
@@ -13,20 +13,20 @@
 // })
 //
 //
-// test('parseUrl test query', () => {
-//     const {query} =    parseUrl('')
+// test('parseQueryParamsUrl test query', () => {
+//     const {query} =    parseQueryParamsUrl('')
 //
 //     expect(query).toMatchObject({})
 // })
 //
-// test('parseUrl test hash', () => {
-//     const {hash} =    parseUrl(url)
+// test('parseQueryParamsUrl test hash', () => {
+//     const {hash} =    parseQueryParamsUrl(url)
 //
 //     expect(hash).toBe('#somehash')
 // })
 //
-// test('parseUrl test href', () => {
-//     const {href} =    parseUrl(url)
+// test('parseQueryParamsUrl test href', () => {
+//     const {href} =    parseQueryParamsUrl(url)
 //
 //     expect(href).toBe(url)
 // })

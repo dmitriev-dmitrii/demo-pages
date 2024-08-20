@@ -1,8 +1,8 @@
-import {parseUrl} from "./parseUrl.js";
+import {parseQueryParamsUrl} from "./parseQueryParamsUrl.js";
 
 
 export const parseRouteParams = ({ routePath,pathRegExp, url }) => {
-    const {path} =  parseUrl(url)
+    const {path} =  parseQueryParamsUrl(url)
     const params = {
 
     }
