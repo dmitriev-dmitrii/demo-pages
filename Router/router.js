@@ -1,5 +1,5 @@
 import {buildPathRegExp} from "./utils/buildPathRegexp.js";
-
+import {parseRouteParams} from "./utils/parseRouteParams.js";
 
 let routesNamesMap = new Map()
 let routesRegexpPathMap = new Map()
@@ -14,13 +14,13 @@ const routes = [{
 }]
 
 const findRoute =  ( routePayload )=> {
-  const   {path = '', name = '', params = {} } = routePayload
-
+  const   { path = '', name = '', params = {} } = routePayload
 
     if (name && !path) {
         // search by name
         // todo params obj
-        return  routesNamesMap.get(name.trim().toLowerCase())
+
+        return routesNamesMap.get(name.trim().toLowerCase())
     }
 
     // search by path
@@ -28,13 +28,19 @@ const findRoute =  ( routePayload )=> {
             return  item.test(path)
      })
 
-     const route = routesRegexpPathMap.get(matchesArr[0])
+     const route = routesRegexpPathMap.get(matchesArr?.[0])
 
      if ( route ) {
+
+         route.path = path
+         route.params = parseRouteParams(route)
+
          return route
      }
 
+
      // TODO переделать на страницу ошибки c props кодом ошибки
+
      return    routes.find((item)=> item.path === '/404')
 
 }
@@ -74,6 +80,8 @@ const renderRouterView = async () => {
         return
     }
 
+    console.log( currentRoute )
+
     routerViewDom.innerHTML =  component || ''
 
     // TODO router children
@@ -82,19 +90,17 @@ const renderRouterView = async () => {
 
 export const push = async  (payload) => {
 
-    const {params, path } = payload
 
     currentRoute = findRoute(payload)
 
-
-
-    window.history.pushState(null, null, path || currentRoute.path );
+    window.history.pushState(null, null, currentRoute.path  || currentRoute.rawPath);
 
     await  renderRouterView();
 };
 
 const onWindowPopState = async ( e ) => {
     currentRoute = findRoute({ path : window.location.pathname })
+
     await  renderRouterView();
 }
 
@@ -104,15 +110,16 @@ export const init = (routesArr) => {
 
         item.name = item.name.toLowerCase().trim()
 
-        const { name,path } = item
+        const { name, path } = item
 
-        const {pathRegexp, dynamicParams} = buildPathRegExp(path)
+        const {pathRegexp,rawDynamicParamsKeys ,rawPath} = buildPathRegExp(path)
 
         item.pathRegexp = pathRegexp
-        item.params = dynamicParams
 
-        // console.log('item.params',item.params)
-       // .replace(':','')
+        item.rawPath = rawPath
+
+        item.path = ''
+
         routesNamesMap.set( name , item )
         routesRegexpPathMap.set( pathRegexp, item)
 
@@ -122,10 +129,6 @@ export const init = (routesArr) => {
 
     currentRoute = findRoute({ path : window.location.pathname })
 
-    // const {pathRegexp} = currentRoute
-    //
-
-
     window.onpopstate = onWindowPopState;
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -133,6 +136,7 @@ export const init = (routesArr) => {
         renderRouterView();
     });
 }
+
 
 
 

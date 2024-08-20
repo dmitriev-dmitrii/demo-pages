@@ -1,46 +1,27 @@
-import {parseQueryParamsUrl} from "./parseQueryParamsUrl.js";
 
+// const paramRegExp = new RegExp(/:\w+/,'gmi')
 
-export const parseRouteParams = ({ routePath,pathRegExp, url }) => {
-    const {path} =  parseQueryParamsUrl(url)
-    const params = {
+export const parseRouteParams = (route) => {
 
-    }
+    const {paramsRawKeys, path, pathRegexp , rawPath } = route
 
-    const paramRegExp = new RegExp(/:\w+/,'gmi')
+    // функция чтобы распарсить из урла динамические параметры
 
-    const matchesArr =     Array.from( routePath.matchAll(paramRegExp) )
+    const r = rawPath.split('/').filter((item)=>!!item) //  [ 'posts', ':id' ]
+    const p = path.split('/').filter((item)=>!!item) // [ 'posts', '2' ]
 
-    // console.log('matchesArr',matchesArr)
+    const params = r.reduce((acc,item,index)=> {
 
-    matchesArr.forEach((item)=> {
-        const [key] = item
-        key.replace(':','')
-        params[key.replace(':','')] = ''
-    })
-    // console.log(params)
+        const key = item.replace(':','')
+        const val = p[index]
 
-    let paramsVal = []
+        if (key !==  val) {
 
+            acc[key] =  val
+        }
 
-     const xz = {}
-    // console.log(path)
-    const valArr = path.match(pathRegExp)
-
-
-
-    // console.log('valArr', valArr)
-    // matchesArr.forEach((item, index)=> {
-    //   const   [key] = item
-    //     const [_,value] =  valArr[index]
-    //
-    //     xz[key.replace(':','')] =  value
-    // })
-    //
-    // console.log(xz)
-    //     const [_,paramValue] =
-    //     console.log(paramValue)
-    // }
+        return acc
+    },{} )
 
     return params
 }
