@@ -13,7 +13,11 @@ const routes = [{
     component: '<h1> 404 Not Found </h1>'
 }]
 
+
 const findRoute =  ( routePayload )=> {
+
+    // TODO добавить мемоизацию
+
   const   { path = '', name = '', params = {} } = routePayload
 
     if (name && !path) {
@@ -47,7 +51,7 @@ const findRoute =  ( routePayload )=> {
 
 
 const renderRouterView = async () => {
-
+// TODO скрипты с компнентов  могут не рабоать если не форматировать код  и не ставить ;
     const {component} = currentRoute
 
     if (typeof component  === "function") {
@@ -80,7 +84,6 @@ const renderRouterView = async () => {
         return
     }
 
-    console.log( currentRoute )
 
     routerViewDom.innerHTML =  component || ''
 
@@ -89,7 +92,6 @@ const renderRouterView = async () => {
 };
 
 export const push = async  (payload) => {
-
 
     currentRoute = findRoute(payload)
 
