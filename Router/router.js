@@ -13,7 +13,6 @@ const routes = [{
     component: '<h1> 404 Not Found </h1>'
 }]
 
-
 const findRoute =  ( routePayload )=> {
 
     // TODO добавить мемоизацию
@@ -42,38 +41,40 @@ const findRoute =  ( routePayload )=> {
          return route
      }
 
-
      // TODO переделать на страницу ошибки c props кодом ошибки
 
      return    routes.find((item)=> item.path === '/404')
 
 }
 
-
 const renderRouterView = async () => {
 // TODO скрипты с компнентов  могут не рабоать если не форматировать код  и не ставить ;
     const {component} = currentRoute
 
+    // component - это функция которую сгенерировал vite template plugin из html
+
     if (typeof component  === "function") {
 
         const template = document.createElement('div')
+
         template.innerHTML =  await component()
 
         const scriptRaw = template.querySelector('script')
-        // scriptRaw скрипт не работает поэтому перезаписываем
+        // сам скрипт записывается корректно в dom, но не работает поэтому перезаписываем таким костылем
 
         if (scriptRaw) {
              const script = document.createElement("script")
-             script.innerText =    scriptRaw.innerText.trim()
 
             // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap
 
             Array.from(scriptRaw.attributes).forEach((item)=> {
-
+            // применяем атрибуты
                 return   script.attributes.setNamedItemNS(item.cloneNode(true))
             })
 
-            scriptRaw.replaceWith( scriptRaw,script )
+            scriptRaw.remove()
+            template.appendChild(script)
+            script.innerHTML = scriptRaw.innerHTML
         }
 
         routerViewDom.innerHTML = ''

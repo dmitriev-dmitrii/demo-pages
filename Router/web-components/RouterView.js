@@ -11,9 +11,7 @@ export default class RouterView extends HTMLElement {
     }
 
     connectedCallback() {
-
         //mounted
-
     }
 
     disconnectedCallback() {

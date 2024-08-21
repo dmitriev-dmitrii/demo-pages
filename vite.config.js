@@ -7,19 +7,21 @@ const fileRegex = /\.(html)$/
     return {
         name: 'template-loader-plugin',
 
-        transform(src, id) {
-            if(fileRegex.test(id)) {
+        transform(codeRaw, path) {
+
+            if(fileRegex.test(path)) {
+                // берем только html файлы
+                // console.log( codeRaw )
+                // todo props component Name
                 return {
                     // code: `export default function template(props = {}){return \`${id}\`}`,
-                    code: `export default function template(props = {}){return \`${src}\`}`,
+                    code: `export default function template(props = {}){return \`${codeRaw}\`}`,
                     map: null,
                 }
             }
         }
     }
 }
-
-
 
 const PORT = 5000
 export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
@@ -28,7 +30,6 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
     const config = {
         plugins: [
             templatePlugin(),
-
         ],
         resolve: {
             alias: {
