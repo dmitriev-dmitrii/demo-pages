@@ -13,6 +13,7 @@ const routes = [{
     component: '<h1> 404 Not Found </h1>'
 }]
 
+
 const findRoute =  ( routePayload )=> {
 
     // TODO добавить мемоизацию
