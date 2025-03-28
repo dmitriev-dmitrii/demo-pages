@@ -1,6 +1,6 @@
 
-import lorem from "@/pages/lorem.html";
-import flexGap from "@/pages/flex-gap.html";
+import lorem from "@/pages/lorem-page.component.html";
+import flexGap from "@/pages/flex-gap.component.html";
 
 const routes = [
 

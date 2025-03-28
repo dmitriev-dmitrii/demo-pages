@@ -49,16 +49,17 @@ const findRoute =  ( routePayload )=> {
 }
 
 const renderRouterView = async () => {
-// TODO скрипты с компнентов  могут не рабоать если не форматировать код  и не ставить ;
+    // TODO скрипты с компнентов  могут не рабоать если не форматировать код  и не ставить ;
     const {component} = currentRoute
 
-    // component - это функция которую сгенерировал vite template plugin из html
+    // component - это функция которую сгенерировал vite template plugin из html либо сгенерированный веб компонент
 
     if (typeof component  === "function") {
 
         const template = document.createElement('div')
 
-        template.innerHTML =  await component()
+        const c = await component()
+        template.append(c)
 
         const scriptRaw = template.querySelector('script')
         // сам скрипт записывается корректно в dom, но не работает поэтому перезаписываем таким костылем

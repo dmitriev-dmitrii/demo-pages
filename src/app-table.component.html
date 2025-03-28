@@ -1,0 +1,42 @@
+<h1>
+    hui
+</h1>
+
+<p style="color: red">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem, dolores.</p>
+
+<button>
+   gg
+</button>
+
+<button class="supper-button">
+    supper-button
+</button>
+
+<script>
+    function gg() {
+        console.log('gg!' );
+    }
+
+    const gg2 = () => {
+        console.log('gg2!' );
+    }
+
+    this.querySelector('button').onclick = gg
+
+    document.querySelector('.supper-button').onclick = gg2
+
+    console.log('gg script loaded');
+</script>
+
+<style>
+    h1,p {
+        color: dodgerblue;
+        font-size: 25px;
+    }
+
+    .supper-button {
+        text-transform: capitalize;
+        font-weight: bold;
+    }
+
+</style>
