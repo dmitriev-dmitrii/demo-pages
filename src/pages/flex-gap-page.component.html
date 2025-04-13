@@ -1,0 +1,132 @@
+<template>
+    <h1> Flex Gap / Margin </h1>
+    <main class="content__wrapper">
+        <div class="input">
+            <label>
+                blockIsActive
+                <input type="checkbox" id="blockIsActiveCheckbox" checked>
+            </label>
+        </div>
+
+        <h2>Flex Gap</h2>
+        <div class="flex gap">
+            <div class="child">1</div>
+            <div class="child">2 active-checkbox</div>
+        </div>
+        <h2>Margin</h2>
+        <div class="flex custom">
+            <div class="child">1</div>
+            <div class="child">2 active-checkbox</div>
+        </div>
+    </main>
+</template>
+<script>
+
+    const flexDivs = this.querySelectorAll('.flex');
+
+    const blockIsActiveCheckbox = document.getElementById('blockIsActiveCheckbox');
+
+    //
+    // this.attributeChangedCallback = (name, oldValue, newValue) => {
+    //   console.log('Attribute has changed');
+    // }
+
+    const observer = new MutationObserver((mutations) => {
+      console.log(mutations)
+      // mutations.forEach((mutation) => {
+      //   if (mutation.type === 'attributes') {
+      //     const name = mutation.attributeName;
+      //     const oldValue = mutation.oldValue;
+      //     const newValue = this.getAttribute(name);
+      //     console.log(`Атрибут ${name} изменён:`, oldValue, '→', newValue);
+      //   }
+      // });
+    });
+
+    observer.observe(this, {
+      attributes: true,          // Следим за атрибутами
+      attributeOldValue: true    // Сохраняем старое значение (опционально)
+    });
+
+
+
+    const changeCheckboxHandle = (e) => {
+        const val = e.target.checked;
+
+        this.setAttribute('val', JSON.stringify({val}))
+        if (val) {
+            flexDivs.forEach((item) => {
+                item.classList.remove('active-checkbox');
+            });
+
+            return;
+        }
+
+
+        flexDivs.forEach((item) => {
+            item.classList.add('active-checkbox');
+        })
+    }
+
+    blockIsActiveCheckbox.addEventListener('change', changeCheckboxHandle);
+
+</script>
+<style>
+    .content__wrapper {
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        justify-content: center;
+        margin: auto;
+        max-width: 40rem;
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .input {
+        display: flex;
+    }
+
+    label {
+        cursor: pointer;
+        display: flex;
+        flex: 0;
+    }
+
+    label input {
+        flex: 0;
+        cursor: pointer;
+    }
+
+    .flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .active-checkbox div:nth-child(2) {
+        display: none;
+    }
+
+    .gap {
+        gap: 1rem;
+    }
+
+    .custom {
+        margin: 0 -.5rem;
+    }
+
+    .custom .child {
+        margin: 0 .5rem;
+    }
+
+    .child {
+        flex: 1;
+        padding: 1rem;
+        border: 1px solid;
+        border-radius: 5px;
+        background-color: dodgerblue;
+        font-weight: bold;
+        color: white;
+    }
+</style>

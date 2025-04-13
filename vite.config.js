@@ -1,35 +1,15 @@
 import {defineConfig} from "vite";
-import { fileURLToPath, URL } from 'node:url'
+import {fileURLToPath, URL} from 'node:url'
+import WebComponentPlugin from './webComponentPlugin';
 
-const fileRegex = /\.(html)$/
-
- function templatePlugin(){
-    return {
-        name: 'template-loader-plugin',
-
-        transform(codeRaw, path) {
-
-            if(fileRegex.test(path)) {
-                // берем только html файлы
-                // console.log( codeRaw )
-                // todo props component Name
-                return {
-                    // code: `export default function template(props = {}){return \`${id}\`}`,
-                    code: `export default function template(props = {}){return \`${codeRaw}\`}`,
-                    map: null,
-                }
-            }
-        }
-    }
-}
+console.log('Loading Vite config...');
 
 const PORT = 5000
-export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
-    // const env = loadEnv(mode, process.cwd(), '')
-
+export default defineConfig(({command, mode, isSsrBuild, isPreview}) => {
+    console.log('Configuring Vite...');
     const config = {
         plugins: [
-            templatePlugin(),
+            WebComponentPlugin()
         ],
         resolve: {
             alias: {
@@ -42,14 +22,25 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         preview: {
             port: PORT,
         },
-        rollupOptions: {
-            // https://rollupjs.org/configuration-options/
-        },
-        // define: {
-            //         __APP_ENV__: JSON.stringify(env.APP_ENV),
+        build: {
+            // rollupOptions: {
+            //     input: {
+            //         main: 'index.html',
             //     },
+            //     output: {
+            //         entryFileNames: 'assets/[name]-[hash].js',
+            //         chunkFileNames: 'assets/[name]-[hash].js',
+            //         assetFileNames: (assetInfo) => {
+            //             if (assetInfo.name.endsWith('.component.html')) {
+            //                 return 'assets/[name].js';
+            //             }
+            //             return `assets/[name]-[hash][extname]`;
+            //         }
+            //     }
+            // },
+        },
     }
-    // console.log(mode)
+    
     if (mode === 'production') {
         config.base = '/demo-pages'
     }

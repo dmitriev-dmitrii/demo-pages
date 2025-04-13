@@ -1,0 +1,60 @@
+<template>
+
+    <header>
+        <nav class="app-nav">
+            <ul>
+                <li>
+                    <router-link path="/" name="home" > Home </router-link>
+                </li>
+                <li>
+                    <router-link  name="home" disabled> Disabled </router-link>
+                </li>
+                <li>
+                    <router-link  name="posts"> Posts </router-link>
+                </li>
+
+                <li>
+                    <router-link name="flexGap"> Flex Gap </router-link>
+                </li>
+                <li>
+                    <router-link name="lorem"> Lorem </router-link>
+                </li>
+                <li>
+                    <a href="/lorem">lorem native </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+</template>
+
+<style>
+
+    h1 {
+        font-size: 5rem;
+    }
+
+    nav.app-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav.app-nav  li {
+        margin:0  0.5rem 0 0;
+        padding: 0.15rem 0.30rem;
+    }
+
+    nav.app-nav a {
+        font-size: 1.1em;
+        display: block;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+</style>
+
+<script>
+
+</script>

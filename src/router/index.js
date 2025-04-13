@@ -1,6 +1,6 @@
 
-import lorem from "@/pages/lorem.html";
-import flexGap from "@/pages/flex-gap.html";
+import lorem from "@/pages/lorem-page.component.html";
+import flexGapPage from "@/pages/flex-gap-page.component.html";
 
 const routes = [
 
@@ -21,7 +21,7 @@ const routes = [
     },
     {
         title: 'flex gap',
-        component : flexGap,
+        component : flexGapPage,
         name :'flexGap',
         path: "/flex-gap"
     },

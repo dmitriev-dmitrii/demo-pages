@@ -49,48 +49,54 @@ const findRoute =  ( routePayload )=> {
 }
 
 const renderRouterView = async () => {
-// TODO скрипты с компнентов  могут не рабоать если не форматировать код  и не ставить ;
+    try {
+
+    routerViewDom.innerHTML = ''
+
     const {component} = currentRoute
 
-    // component - это функция которую сгенерировал vite template plugin из html
+    // component - это функция которую сгенерировал vite template plugin из html либо сгенерированный веб компонент
 
     if (typeof component  === "function") {
 
-        const template = document.createElement('div')
-
-        template.innerHTML =  await component()
-
-        const scriptRaw = template.querySelector('script')
+        currentRoute.componentRef = await new component()
+        console.log(currentRoute.componentRef)
+        // const scriptRaw = template.querySelector('script')
         // сам скрипт записывается корректно в dom, но не работает поэтому перезаписываем таким костылем
 
-        if (scriptRaw) {
-             const script = document.createElement("script")
+        // if (scriptRaw) {
+        //      const script = document.createElement("script")
+        //
+        //     // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap
+        //
+        //     Array.from(scriptRaw.attributes).forEach((item)=> {
+        //     // применяем атрибуты
+        //         return   script.attributes.setNamedItemNS(item.cloneNode(true))
+        //     })
+        //
+        //     scriptRaw.remove()
+        //     template.appendChild(script)
+        //     script.innerHTML = scriptRaw.innerHTML
+        // }
 
-            // https://developer.mozilla.org/en-US/docs/Web/API/NamedNodeMap
-
-            Array.from(scriptRaw.attributes).forEach((item)=> {
-            // применяем атрибуты
-                return   script.attributes.setNamedItemNS(item.cloneNode(true))
-            })
-
-            scriptRaw.remove()
-            template.appendChild(script)
-            script.innerHTML = scriptRaw.innerHTML
-        }
-
-        routerViewDom.innerHTML = ''
+        // routerViewDom.innerHTML = ''
         // очистка от старого контента
+        //
+        // routerViewDom.append.apply( routerViewDom , template.children )
 
-        routerViewDom.append.apply( routerViewDom , template.children )
-
-        return
     }
 
+    if (typeof component  === "string") {
+        const componentWrapper =  document.createElement('div')
+        componentWrapper.innerHTML = currentRoute.component
+        currentRoute.componentRef = componentWrapper
+    }
 
-    routerViewDom.innerHTML =  component || ''
+    routerViewDom.append(currentRoute.componentRef)
 
-    // TODO router children
-
+    } catch (e) {
+        console.log('renderRouterView err' , e)
+    }
 };
 
 export const push = async  (payload) => {
