@@ -1,13 +1,15 @@
 import {defineConfig} from "vite";
 import {fileURLToPath, URL} from 'node:url'
 import WebComponentPlugin from './webComponentPlugin';
-
-console.log('Loading Vite config...');
+import * as path from "path";
 
 const PORT = 5000
 export default defineConfig(({command, mode, isSsrBuild, isPreview}) => {
-    console.log('Configuring Vite...');
+
+    const isProdMode = mode === 'production'
+
     const config = {
+
         plugins: [
             WebComponentPlugin()
         ],
@@ -23,25 +25,29 @@ export default defineConfig(({command, mode, isSsrBuild, isPreview}) => {
             port: PORT,
         },
         build: {
-            // rollupOptions: {
-            //     input: {
-            //         main: 'index.html',
-            //     },
-            //     output: {
-            //         entryFileNames: 'assets/[name]-[hash].js',
-            //         chunkFileNames: 'assets/[name]-[hash].js',
-            //         assetFileNames: (assetInfo) => {
-            //             if (assetInfo.name.endsWith('.component.html')) {
-            //                 return 'assets/[name].js';
-            //             }
-            //             return `assets/[name]-[hash][extname]`;
-            //         }
-            //     }
-            // },
+            minify: isProdMode ,
+            cssMinify: isProdMode,
+            sourcemap: true,
+            rollupOptions: {
+                output: {
+                    chunkFileNames: ({name}) => {
+                        if (name.includes('.component')) {
+                            return `components/[name]-[hash].js`;
+                        }
+                        return `assets/[name]-[hash].js`;
+                    },
+                    manualChunks(id) {
+                        if (id.includes('.component')) {
+                            const fileName = path.basename(id).split('.')[0];
+                            return `components/${fileName}`; // "component-button.js"
+                        }
+                    }
+                }
+            },
         },
     }
-    
-    if (mode === 'production') {
+
+    if (isProdMode) {
         config.base = '/demo-pages'
     }
 

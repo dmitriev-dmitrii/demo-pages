@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "make clean-dist && npm i && vite",
     "build": "make clean-dist && vite build",
-    "preview": "vite build --mode development && vite preview --mode development",
+    "preview": "make clean-dist && vite build --mode development && vite preview --mode development",
     "test": "vitest",
     "test-coverage": "vitest run"
   },
   "devDependencies": {
-    "vite": "^6.2.3",
+    "vite": "^6.2.6",
     "vitest": "^3.0.5"
   }
 }
